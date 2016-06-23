@@ -41,8 +41,6 @@ print(rvt_db)
 
 #clr.AddReference(r'C:\Program Files\Autodesk\Revit 2016\RevitAPIUI')
 
-
-
 #from Autodesk.Revit.DB import *
 #from Autodesk.Revit.DB.Architecture import *
 #from Autodesk.Revit.DB.Analysis import *
