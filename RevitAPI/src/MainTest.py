@@ -8,7 +8,7 @@ import logging.config
 import unittest
 
 from ExergyUtilities.utility_inspect import get_self
-
+import utility_revit_api as util_ra
 #===============================================================================
 # Other modules
 #===============================================================================
