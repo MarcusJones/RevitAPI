@@ -3,7 +3,9 @@ from __future__ import print_function
 #===============================================================================
 # pyRevit
 #===============================================================================
-__doc__ = 'Test'
+__doc__ = """
+
+"""
 
 #===============================================================================
 # Logging
@@ -40,9 +42,11 @@ LEGEND_CENTER = rvt_db.XYZ(3.522094284, 1.583534318, 0.000000000)
 import sys
 import csv
 
-path_package = r"C:\EclipseGit\ExergyUtilities\ExergyUtilities"
+#path_package = r"C:\EclipseGit\ExergyUtilities\RevitUtilities"
+path_package = r"C:\EclipseGit\ExergyUtilities"
 sys.path.append(path_package)
-import utility_revit_api as util_ra
+import RevitUtilities as util_ra
+#import utility_general as util_gen
 
 #===============================================================================
 # Definitions
@@ -54,15 +58,15 @@ def update_sheet_parameters(excel_dict, sheets_by_name, flg_update=False, verbos
     focus_params =[
                    #'Project Number', # PROJECT PARAM
                    #'Project Status', # PROJECT PARAM
-                   'Designing Company', # YES
-                   'Project Manager MEP', # YES
-                   'Project Manager ID',# YES
-                   'Designer', # YES
-                   'Designer ID', # YES
-                   'Draftsperson', # YES
+                   #'Designing Company', # YES
+                   #'Project Manager MEP', # YES
+                   #'Project Manager ID',# YES
+                   #'Designer', # YES
+                   #'Designer ID', # YES
+                   #'Draftsperson', # YES
                    #'Sheet Name' # PROJECT PARAM
-                   'Design', # YES
-                   'Design No.', # YES
+                   #'Design', # YES
+                   #'Design No.', # YES
                    #'Drawing Type',
                    #'Project Status',
                    'Sheet Issue Date',
@@ -71,21 +75,28 @@ def update_sheet_parameters(excel_dict, sheets_by_name, flg_update=False, verbos
     for i,row in enumerate(excel_dict):
         count_total_rows += 1
         if row['SOURCE'] == 'RVT':
+            
+            
             count_total_rvt+=1
             # Get sheet (exists)
+            sheet_name = row['Sheet Name']
+
             try: this_sheet = sheets_by_name[row['Sheet Name']]
             except:
-                logging.error("Sheet {} does not exist".format(sheet_name))
+                logging.error("Sheet {} does not exist (not loaded in dictionary)".format(sheet_name))
                 raise
             
-            sheet_name = row['Sheet Name']
+            print("Processing Revit Sheet {}".format(sheet_name))
             
+            changed_params = list()
+                        
             for k in row:
+                
                 if k in focus_params:
                     # 
                     flg_exists = util_ra.parameter_exists(this_sheet, k)
                     if flg_exists:
-                        value = util_ra.get_parameter_value(this_sheet, k)
+                        value = util_ra.get_parameter_value_str(this_sheet, k)
                     else:
                         value = ""
                     
@@ -94,16 +105,28 @@ def update_sheet_parameters(excel_dict, sheets_by_name, flg_update=False, verbos
                     else:
                         flg_match = False
                         
-                    if verbose:
-                        print("Row {0} {1:20} Exists:{2:10} Value:{3:20} New Value:{4:20} Match:{5:10}".format())
+#                     if verbose:
+#                         print("Row {0} {1:20} Exists:{2:10} Value:{3:20} New Value:{4:20} Match:{5:10}".format(i,
+#                                                                                                                row['Sheet Name'],
+#                                                                                                                flg_exists,
+#                                                                                                                k,
+#                                                                                                                row[k],
+#                                                                                                                flg_match
+#                                                                                                                ))
                               
-                              
-                else:
-                    if verbose:
-                        print("Skipped {}".format(k))
-                
                 if k in focus_params and not flg_match:
-                    util_ra.change_parameter(rvt_doc, this_sheet, k, row[k])
+                    # The parameter in excel does not match Revit => Update
+                    changed_params.append(k)
+                    if 0:
+                        util_ra.change_parameter(rvt_doc, this_sheet, k, row[k])
+                    
+            print("Updated row {}, {}: {}".format(i, sheet_name, changed_params))
+                        
+        else:
+            if verbose:
+                print("Skipped {}, row {}".format(row['SOURCE'],i))
+                continue
+                            
             #util_ra.table_parameters(this_sheet)
             
     logging.debug("Iterated {} document rows".format(count_total_rows))
@@ -120,11 +143,11 @@ logging.info("app : {}".format(rvt_app))
 
 #-Paths---
 folder_csv = r"C:\CesCloud Revit\_03_IKEA_Working_Folder"
-name_csv = r"\20160712 Document Register.csv"
+name_csv = r"\20161003 Document Register.csv"
 path_csv = folder_csv + name_csv
 
 #-Get data---
-data_dict = get_data_csv(path_csv)
+data_dict = util_ra.utility_general.get_data_csv(path_csv)
 
 # data_dict_RVT = list()
 # for row in data_dict:
@@ -133,7 +156,6 @@ data_dict = get_data_csv(path_csv)
 #         if row['SOURCE'] == 'RVT' and row['VIEW TYPE'] == 'PLAN':
 #             data_dict_RVT.append()
 data_dict_RVT = [row for row in data_dict if row['SOURCE'] == 'RVT']
-
 
 #-Get all floorplans, sheets_by_name, titleblocks, legends---
 util_ra.get_all_views(rvt_doc)
@@ -145,6 +167,6 @@ legends = util_ra.get_views_by_type(rvt_doc,'Legend')
 templates = util_ra.get_view_templates(rvt_doc)
 
 #-Run---
-update_sheet_parameters(data_dict_RVT,sheets_by_name,flg_update=False)
+update_sheet_parameters(data_dict_RVT,sheets_by_name,flg_update=False,verbose=True)
 
 logging.info("---DONE---".format())

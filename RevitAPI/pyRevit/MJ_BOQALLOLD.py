@@ -32,7 +32,7 @@ import time
 
 path_package = r"C:\EclipseGit\ExergyUtilities\ExergyUtilities"
 sys.path.append(path_package)
-import utility_revit_api as util_ra
+import utility_revit_api2 as util_ra
 
 
 #===============================================================================
