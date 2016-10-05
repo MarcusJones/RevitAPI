@@ -4,7 +4,10 @@ from __future__ import print_function
 # pyRevit
 #===============================================================================
 __doc__ = """
+Collect data from CSV table, headers in second row
+Apply parameters to sheet objects from table
 
+3.OCT.2016 - Updated for OD phase
 """
 
 #===============================================================================
