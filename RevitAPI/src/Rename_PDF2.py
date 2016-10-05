@@ -42,7 +42,7 @@ def rename():
         #new_name = filename.replace("C_PDF IKEA_DATA_DATA - Sheet - ","")
         #new_name = filename.replace("C_Users_jon_Documents_DATA - Sheet - ","")
         #new_name = filename.replace("C_Users_jon_Documents_DATA - Sheet - ","")
-        new_name = filename.replace("C_PDF NEW_x - Sheet - ","")
+        new_name = filename.replace("C_Users_jon_Desktop_Export_161003_IKEA_MEP_LOCALl_jon - Sheet - ","")
         
         new_name = new_name.replace("--","")
 
@@ -78,8 +78,8 @@ def flip_name():
         new_name = new_name + ".pdf"
         print(filename, new_name)
 
-        print(filename)
-        print(new_name)
+        print("{} -> {}".format(filename,new_name))
+        #print(new_name)
         
         if 1:
             try:
@@ -94,6 +94,6 @@ def flip_name():
 
 
 if __name__ == '__main__':
-    #rename()
+    rename()
     
-    flip_name()
+    #flip_name()
