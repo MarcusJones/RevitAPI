@@ -92,7 +92,7 @@ for i,elem in enumerate(all_instances):
         #print(average_times)
     
     # Break loop during testing
-    if i >= 5000 and 1:
+    if i >= 5000 and 0:
         break
     
     # Start a dict for this row of the table
@@ -138,6 +138,19 @@ for i,elem in enumerate(all_instances):
 
     this_row["System"] = util_ra.get_parameter_plain_string(elem, "System Abbreviation", flg_DNE=True)
 
+    # -Reference level ONLY ENABLE IF NEEDED
+    this_BIP_reflev = rvt_db.BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM
+    this_row["RefLevel"] = elem.get_Parameter(this_BIP_reflev)
+    
+    if this_row["Category"] == "Cable Trays":
+        util_ra.table_parameters(elem)
+        #print(elem.get_Parameter(this_BIP_reflev))
+        
+        #print(type(elem.get_Parameter(this_BIP_reflev)))
+        #print(elem.parameter(this_BIP_reflev))
+        #print(this_row["RefLevel"])
+        raise
+    
     # Get data for REPORTING
     this_row["Description"] = util_ra.get_parameter_plain_string(elem, "Description", flg_DNE=True)
     
@@ -172,7 +185,7 @@ end = time.time()
         
 logging.info("Built table of {} elements over {} seconds".format(len(table),end - start))
     
-out_path = r"C:\CesCloud Revit\_03_IKEA_Working_Folder\BOQ Development\BOQ ALL5.csv"
+out_path = r"C:\CesCloud Revit\_03_IKEA_Working_Folder\BOQ Development\BOQ ALL.csv"
 with open(out_path,'wb') as csv_file:
     writer = csv.DictWriter(csv_file, delimiter=';', fieldnames=table[0].keys())
     writer.writeheader()
