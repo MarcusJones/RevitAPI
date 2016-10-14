@@ -30,7 +30,7 @@ myLogger.setLevel("DEBUG")
 #===============================================================================
 logging.info("Python version : {}".format(sys.version))
 
-def rename():
+def flip_name():
     logging.debug("Start")
     
     folder = r"C:\Users\jon\Desktop\PDF Print"
@@ -39,18 +39,17 @@ def rename():
     for i,filename in enumerate(os.listdir(folder)):
         #if filename.startswith("cheese_"):
         #    os.rename(filename, filename[7:])
-        #new_name = filename.replace("C_PDF IKEA_DATA_DATA - Sheet - ","")
-        #new_name = filename.replace("C_Users_jon_Documents_DATA - Sheet - ","")
-        #new_name = filename.replace("C_Users_jon_Documents_DATA - Sheet - ","")
-        new_name = filename.replace("C_Users_jon_Desktop_PDF Print_161014_IKEA_MEP_LOCAL - Sheet - ","")
-        
-        new_name = new_name.replace("--","")
+        root = os.path.splitext(filename)[0]
+        elements = root.split(" - ")
+        flipped = [elements[1],elements[0]] 
+        new_name = " - ".join(flipped)
+        #print(elements, new_name)
+        new_name = new_name + ".pdf"
+        print(filename, new_name)
 
-        print(filename)
-        print(new_name)
-        print("***")
+        print("{} -> {}".format(filename,new_name))
+        #print(new_name)
         
-        #full_path
         if 1:
             try:
                 os.rename(filename, new_name)
@@ -64,5 +63,5 @@ def rename():
 
 
 if __name__ == '__main__':
-    rename()
-    
+
+    flip_name()
