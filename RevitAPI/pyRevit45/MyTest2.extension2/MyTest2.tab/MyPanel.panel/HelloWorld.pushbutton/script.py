@@ -19,7 +19,6 @@ __title__ = 'MY Test Hello'
 
 
 print('Hello22'.format())
-print('Hello again'.format())
 
 rvt_uidoc = __revit__.ActiveUIDocument
 
