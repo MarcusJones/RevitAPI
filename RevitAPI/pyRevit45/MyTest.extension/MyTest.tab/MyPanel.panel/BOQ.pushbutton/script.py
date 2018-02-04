@@ -123,6 +123,14 @@ print("{:30}".format("-UnitType-"), end="")
 print("{} {}".format(1,23))
 print("")
 
+
+# prints contents formatted as a python script
+python_script = """
+import sys
+print(sys.paths)
+"""
+this_script.output.print_code(python_script)
+
 print("DONE")
 
 
