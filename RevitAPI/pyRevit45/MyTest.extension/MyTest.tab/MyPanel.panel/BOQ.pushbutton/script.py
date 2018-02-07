@@ -6,6 +6,7 @@ from __future__ import print_function
 #===============================================================================
 #--- SETUP Logging
 #===============================================================================
+
 from scriptutils import logger, this_script
 from scriptutils.userinput import CommandSwitchWindow
 
@@ -120,6 +121,20 @@ def get_walls():
 print("Doc", doc)
 print("uidoc", uidoc)
 
+walls = util_elems.get_element_OST_Walls_Document(doc)
+print(walls[0])
+str_all = util_params.table_parameters_string(walls[0])
+out.print_table(str_all)
+out.print_md("asdfasdf")
+#for s in str_all:
+#    print_md(s)
+
+#table_parameters_string()
+
+    #fec = rvt_db.FilteredElementCollector(doc, doc.ActiveView.Id)
+    #fec.OfCategory(BuiltInCategory.OST_Walls);
+    
+raise
 
 print("Get sorted elements")
 
@@ -127,7 +142,8 @@ print("Get sorted elements")
 sorted_elems = util_elems.get_sort_all_elements(doc)
 
 
-boq_elems = util_elems.get_BOQ_elements(doc)
+
+#boq_elems = util_elems.get_BOQ_elements(doc)
 
 print(len(boq_elems))
 
