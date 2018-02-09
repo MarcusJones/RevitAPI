@@ -3,6 +3,7 @@
 	<name>py_RevitAPI</name>
 	<comment></comment>
 	<projects>
+		<project>py_ExergyUtilities</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

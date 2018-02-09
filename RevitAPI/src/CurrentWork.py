@@ -19,7 +19,8 @@ myLogger.setLevel("DEBUG")
 #===============================================================================
 # Utilities
 #===============================================================================
-import utility_revit as util_ra
+#import RevitUtilities.utility_revit as util_ra
+import RevitUtilities.utility_get_elements as util_get_el
 
 
 #===============================================================================
@@ -38,6 +39,8 @@ from System.Diagnostics import Process
 #===============================================================================
 # Get Revit
 #===============================================================================
+
+
 import sys
 sys.path.append(r'C:\Program Files\Autodesk\Revit 2017')
 #sys.path.append(r'C:\Program Files\Autodesk\Revit 2017')
@@ -55,7 +58,20 @@ import Autodesk.Revit.DB as rvt_db
 rvt_doc = rvt_db.Document
 logging.debug("Added {}".format(rvt_db))
 logging.debug("Added {}".format(rvt_doc))
+from Autodesk.Revit.DB import FilteredElementCollector
 
+
+clr.AddReference('RevitAPI') 
+clr.AddReference('RevitAPIUI') 
+from Autodesk.Revit.DB import * 
+ 
+app = __revit__.Application
+doc = __revit__.ActiveUIDocument.Document
+
+
+#from Autodesk.Revit.DB import FilteredElementCollector, BuiltInCategory
+
+#raise
 #print(rvt_db.Document)
 # Get UI
 import Autodesk.Revit.UI as rvt_ui
@@ -90,9 +106,11 @@ logging.debug("Added {}".format(rvt_ui))
 #import Autodesk.Revit.DB as rvt_db
 #print(dir(rvt_db))
 
-
-
-el_dict_instances = util_ra.get_sort_all_FamilyInstance(rvt_doc)
+#util_get_el.get_element_by_id()
+print('test')
+walls = util_get_el.get_element_OST_Walls_Document(rvt_doc,rvt_db,FilteredElementCollector)
+print(walls)
+#el_dict_instances = util_ra.get_sort_all_FamilyInstance(rvt_doc)
 raise 
 
 print(rvt_db)
